@@ -24,12 +24,20 @@ namespace Web_APi_crud.Controllers
         [HttpPost("api/AgregarCarrera")]
         public IActionResult AgregarCarrera([FromBody] Carrera carrera)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return Ok(_carrera.AgregarCarrera(carrera));
         }
 
         [HttpPut("api/Carrera/{id}")]
         public IActionResult ActualizarCarrera(int id, [FromBody] Carrera carrera)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return Ok(_carrera.ActualizarCarrera(id, carrera));
         }
 
