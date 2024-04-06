@@ -25,6 +25,11 @@ namespace Web_APi_crud.Controllers
         {
             try
             {
+                // Validar el modelo
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 int resultado = this.estudiante.AgregarEstudiante(estudiante);
                 if (resultado > 0)
                 {
@@ -56,6 +61,11 @@ namespace Web_APi_crud.Controllers
         {
             try
             {
+                // Validar el modelo
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 int resultado = this.estudiante.ActualizarEstudiante(id, estudiante);
                 if (resultado > 0)
                 {
