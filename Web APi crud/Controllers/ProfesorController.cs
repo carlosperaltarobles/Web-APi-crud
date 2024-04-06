@@ -28,12 +28,20 @@ namespace Web_APi_crud.Controllers
         [HttpPost("api/AgregarProfesor")]
         public IActionResult AgregarProfesor([FromBody] Profesor profesor)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return Ok(_profesor.AgregarProfesor(profesor));
         }
 
         [HttpPut("api/profesor/{id}")]
         public IActionResult ActualizarProfesor(int id, [FromBody] Profesor profesor)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return Ok(_profesor.ActualizarProfesor(id, profesor));
         }
 
