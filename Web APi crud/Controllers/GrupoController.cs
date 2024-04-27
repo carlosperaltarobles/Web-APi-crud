@@ -24,21 +24,35 @@ namespace Web_APi_crud.Controllers
         [HttpPost("api/AgregarGrupo")]
         public IActionResult AgregarGrupo([FromBody] Grupo grupo)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                return Ok(_grupo.AgregarGrupo(grupo));
             }
-            return Ok(_grupo.AgregarGrupo(grupo));
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("api/Grupo/{id}")]
         public IActionResult ActualizarGrupo(int id, [FromBody] Grupo grupo)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                return Ok(_grupo.ActualizarGrupo(id, grupo));
             }
-            return Ok(_grupo.ActualizarGrupo(id, grupo));
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("api/Grupo/{id}")]

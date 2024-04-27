@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
 using Web_APi_crud.Interfaces;
 using Web_APi_crud.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
 
 // Add services to the container.
 
@@ -18,6 +23,8 @@ builder.Services.AddSingleton<IProfesor, ProfesorRepository>();
 builder.Services.AddSingleton<IGrupo, GrupoRepository>();
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
