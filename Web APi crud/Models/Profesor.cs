@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 namespace Web_APi_crud.Models
 {
+    [PrimaryKey("IdProfesor")]
     public class Profesor
     {
         public int IdProfesor { get; set; }
