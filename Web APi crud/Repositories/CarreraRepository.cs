@@ -5,20 +5,28 @@ namespace Web_APi_crud.Repositories
 {
     public class CarreraRepository : ICarrera
     {
-        private List<Carrera> carreras = new List<Carrera>
-            {
-                new Carrera { id = 1, nombre = "Ingenieria en Sistemas Informaticos", codigo = "ISI" }
-            };
+        //private List<Carrera> carreras = new List<Carrera>
+        //    {
+        //        new Carrera { id = 1, nombre = "Ingenieria en Sistemas Informaticos", codigo = "ISI" }
+        //    };
+        private readonly ApplicationDbContext applicationDbContext;
+
+        public CarreraRepository(ApplicationDbContext applicationDbContext)
+        {
+            this.applicationDbContext = applicationDbContext;
+        }
         public int AgregarCarrera(Carrera carrera)
         {
             try
             {
-                if(carreras != null)
-                {
-                    carrera.id = carreras.Last().id + 1;
-                }
+                //if(carreras != null)
+                //{
+                //    carrera.id = carreras.Last().id + 1;
+                //}
 
-                carreras.Add(carrera);
+                //carreras.Add(carrera);
+                applicationDbContext.Carreras.Add(carrera);
+                applicationDbContext.SaveChanges();
                 return carrera.id;
             }
             catch (Exception)
@@ -31,8 +39,11 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                int indice = carreras.FindIndex(e => e.id == id);
-                carreras[indice] = carrera;
+                //int indice = carreras.FindIndex(e => e.id == id);
+                //carreras[indice] = carrera;
+                var item = applicationDbContext.Carreras.SingleOrDefault(e => e.id == id);
+                applicationDbContext.Entry(item).CurrentValues.SetValues(carrera);
+                applicationDbContext.SaveChanges();
                 return id;
             }
             catch (Exception)
@@ -45,10 +56,18 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                int indice = carreras.FindIndex(e => e.id == id);
-                if (indice != -1)
+                //int indice = carreras.FindIndex(e => e.id == id);
+                //if (indice != -1)
+                //{
+                //    carreras.RemoveAt(indice);
+                //    return true;
+                //}
+                //return false;
+                var item = applicationDbContext.Carreras.SingleOrDefault(e => e.id == id);
+                if (item != null)
                 {
-                    carreras.RemoveAt(indice);
+                    applicationDbContext.Carreras.Remove(item);
+                    applicationDbContext.SaveChanges();
                     return true;
                 }
                 return false;
@@ -63,8 +82,9 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                List<Carrera> resultado = carreras;
-                return resultado;
+                //List<Carrera> resultado = carreras;
+                //return resultado;
+                return applicationDbContext.Carreras.ToList();
             }
             catch (Exception)
             {
@@ -76,8 +96,9 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                Carrera resultado = carreras.Find(e => e.id == id);
-                return resultado;
+                //Carrera resultado = carreras.Find(e => e.id == id);
+                //return resultado;
+                return applicationDbContext.Carreras.Find(id);
             }
             catch (Exception)
             {

@@ -5,16 +5,25 @@ namespace Web_APi_crud.Repositories
 {
     public class MateriaRepository : IMateria
     {
-        private List<Materia> materias = new List<Materia>
+        //private List<Materia> materias = new List<Materia>
+        //{
+        //    new Materia {idMateria = 1, nombre = "Matematicas"},
+        //};
+        private readonly ApplicationDbContext applicationDbContext;
+
+        public MateriaRepository(ApplicationDbContext applicationDbContext)
         {
-            new Materia {idMateria = 1, nombre = "Matematicas"},
-        };
+            this.applicationDbContext = applicationDbContext;
+        }
         public int AgregarMateria(Materia materia)
         {
             try
             {
-                materias.Add(materia);
-                return 1;
+                //materias.Add(materia);
+                //return 1;
+                applicationDbContext.Materias.Add(materia);
+                applicationDbContext.SaveChanges();
+                return materia.idMateria;
             }
             catch (Exception)
             {
@@ -26,8 +35,12 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                int indice = materias.FindIndex(e => e.idMateria == id);
-                materias[indice] = materia;
+                //int indice = materias.FindIndex(e => e.idMateria == id);
+                //materias[indice] = materia;
+                //return id;
+                var item = applicationDbContext.Materias.SingleOrDefault(e => e.idMateria == id);
+                applicationDbContext.Entry(item).CurrentValues.SetValues(materia);
+                applicationDbContext.SaveChanges();
                 return id;
             }
             catch (Exception)
@@ -40,11 +53,19 @@ namespace Web_APi_crud.Repositories
         {
            try
             {
-                int indice = materias.FindIndex(e => e.idMateria == id);
-                if (indice != -1)
+                //int indice = materias.FindIndex(e => e.idMateria == id);
+                //if (indice != -1)
+                //{
+                //     materias.RemoveAt(indice);
+                //     return true;
+                //}
+                //return false;
+                var item = applicationDbContext.Materias.SingleOrDefault(e => e.idMateria == id);
+                if (item != null)
                 {
-                     materias.RemoveAt(indice);
-                     return true;
+                    applicationDbContext.Materias.Remove(item);
+                    applicationDbContext.SaveChanges();
+                    return true;
                 }
                 return false;
               }
@@ -58,7 +79,8 @@ namespace Web_APi_crud.Repositories
         {
            try
             {
-                return materias;
+                //return materias;
+                return applicationDbContext.Materias.ToList();
             }
             catch (Exception)
             {
@@ -70,8 +92,9 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                Materia materia = materias.Find(e => e.idMateria == id);
-                return materia;
+                //Materia materia = materias.Find(e => e.idMateria == id);
+                //return materia;
+                return applicationDbContext.Materias.Find(id);
             }
             catch (Exception)
             {

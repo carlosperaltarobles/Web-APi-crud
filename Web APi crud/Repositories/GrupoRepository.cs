@@ -5,21 +5,29 @@ namespace Web_APi_crud.Repositories
 {
     public class GrupoRepository : IGrupo
     {
-        private List<Grupo> Grupos = new List<Grupo>
+        //private List<Grupo> Grupos = new List<Grupo>
+        //{
+        //    new Grupo { idGrupo = 1, idCarrera = 1, idMateria = 1, idProfesor = 1, Ciclo = 1, Annio = 2021 },
+        //};
+        private readonly ApplicationDbContext applicationDbContext;
+
+        public GrupoRepository(ApplicationDbContext applicationDbContext)
         {
-            new Grupo { idGrupo = 1, idCarrera = 1, idMateria = 1, idProfesor = 1, Ciclo = 1, Annio = 2021 },
-        };
+            this.applicationDbContext = applicationDbContext;
+        }
 
         public int AgregarGrupo(Grupo grupo)
         {
             try
             {
-                if (Grupos != null)
-                {
-                    grupo.idGrupo = Grupos.Last().idGrupo + 1;
-                }
+                //if (Grupos != null)
+                //{
+                //    grupo.idGrupo = Grupos.Last().idGrupo + 1;
+                //}
 
-                Grupos.Add(grupo);
+                //Grupos.Add(grupo);
+                applicationDbContext.Grupos.Add(grupo);
+                applicationDbContext.SaveChanges();
                 return grupo.idGrupo;
             }
             catch (Exception)
@@ -32,8 +40,10 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                int indice = Grupos.FindIndex(e => e.idGrupo == id);
-                Grupos[indice] = grupo;
+                //int indice = Grupos.FindIndex(e => e.idGrupo == id);
+                //Grupos[indice] = grupo;
+                var item = applicationDbContext.Grupos.SingleOrDefault(e => e.idGrupo == id);
+                applicationDbContext.Entry(item).CurrentValues.SetValues(grupo);
                 return id;
             }
             catch (Exception)
@@ -46,10 +56,18 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                int indice = Grupos.FindIndex(e => e.idGrupo == id);
-                if (indice != -1)
+                //int indice = Grupos.FindIndex(e => e.idGrupo == id);
+                //if (indice != -1)
+                //{
+                //    Grupos.RemoveAt(indice);
+                //    return true;
+                //}
+                //return false;
+                var item = applicationDbContext.Grupos.SingleOrDefault(e => e.idGrupo == id);
+                if (item != null)
                 {
-                    Grupos.RemoveAt(indice);
+                    applicationDbContext.Grupos.Remove(item);
+                    applicationDbContext.SaveChanges();
                     return true;
                 }
                 return false;
@@ -62,12 +80,14 @@ namespace Web_APi_crud.Repositories
 
         public List<Grupo> AllGrupos()
         {
-            return Grupos;
+            //return Grupos;
+            return applicationDbContext.Grupos.ToList();
         }
 
         public Grupo ConsultarGrupo(int id)
         {
-            return Grupos.Find(e => e.idGrupo == id);
+            //return Grupos.Find(e => e.idGrupo == id);
+            return applicationDbContext.Grupos.Find(id);
         }
     }
 }
