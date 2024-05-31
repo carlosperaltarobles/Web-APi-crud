@@ -22,6 +22,18 @@ builder.Services.AddScoped<IMateria, MateriaRepository>();
 builder.Services.AddScoped<IProfesor, ProfesorRepository>();
 builder.Services.AddScoped<IGrupo, GrupoRepository>();
 
+// configurando el cors
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(configuration =>
+    {
+        configuration.WithOrigins(builder.Configuration["allowedOrigins"]!)
+        .AllowAnyMethod().AllowAnyHeader();
+    });
+
+});
+
+
 var app = builder.Build();
 
 
@@ -32,7 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();

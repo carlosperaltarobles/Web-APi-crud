@@ -13,7 +13,6 @@ namespace Web_APi_crud.Models
         [MaxLength(50, ErrorMessage = "El nombre no puede tener mas de 50 caracteres")]
         public string apellido { get; set; }
         [Required(ErrorMessage = "El codigo es requerido")]
-        [MinLength(10, ErrorMessage = "El nombre no puede tener menos de 10 caracteres")]
         [MaxLength(length:12, ErrorMessage ="la longitud no puede ser mayor a 12 caracteres")]
         public string codigo { get; set; }
         [Required(ErrorMessage = "El crreo es requerido")]
