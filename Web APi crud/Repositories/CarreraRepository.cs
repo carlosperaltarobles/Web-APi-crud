@@ -42,8 +42,13 @@ namespace Web_APi_crud.Repositories
                 //int indice = carreras.FindIndex(e => e.id == id);
                 //carreras[indice] = carrera;
                 var item = applicationDbContext.Carreras.SingleOrDefault(e => e.id == id);
-                applicationDbContext.Entry(item).CurrentValues.SetValues(carrera);
-                applicationDbContext.SaveChanges();
+                if(item != null)
+                {
+                    item.nombre = carrera.nombre;
+                    item.codigo = carrera.codigo;
+                    applicationDbContext.SaveChanges();
+                    return id;
+                }
                 return id;
             }
             catch (Exception)

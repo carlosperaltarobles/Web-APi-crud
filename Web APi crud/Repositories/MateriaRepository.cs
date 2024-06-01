@@ -39,8 +39,11 @@ namespace Web_APi_crud.Repositories
                 //materias[indice] = materia;
                 //return id;
                 var item = applicationDbContext.Materias.SingleOrDefault(e => e.idMateria == id);
-                applicationDbContext.Entry(item).CurrentValues.SetValues(materia);
-                applicationDbContext.SaveChanges();
+              if (item != null)
+                {
+                    item.nombre = materia.nombre;
+                    applicationDbContext.SaveChanges();
+                }
                 return id;
             }
             catch (Exception)

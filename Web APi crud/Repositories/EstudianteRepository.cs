@@ -40,12 +40,24 @@ namespace Web_APi_crud.Repositories
         {
             try
             {
-                //int indice = estudiantes.FindIndex(e => e.idEstudiante == id);
-                //estudiantes[indice] = estudiante;
                 var item = applicationDbContext.Estudiantes.SingleOrDefault(e => e.idEstudiante == id);
-                applicationDbContext.Entry(item).CurrentValues.SetValues(estudiante);
-                applicationDbContext.SaveChanges();
-                return id;
+
+                if (item != null)
+                {
+                    // Actualizar las propiedades del estudiante, excepto 'idEstudiante'
+                    item.nombre = estudiante.nombre;
+                    item.apellido = estudiante.apellido;
+                    item.codigo = estudiante.codigo;
+                    item.correo = estudiante.correo;
+
+                    applicationDbContext.SaveChanges();
+                    return id;
+                }
+                else
+                {
+                    // El estudiante no existe
+                    return -1;
+                }
             }
             catch (Exception)
             {

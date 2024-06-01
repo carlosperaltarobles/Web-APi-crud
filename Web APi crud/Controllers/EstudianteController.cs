@@ -56,8 +56,8 @@ namespace Web_APi_crud.Controllers
             });
         }
 
-        [HttpPost("actualizarEstudiante/{id}")]
-         public IActionResult ActualizarEstudiante(int id, [FromBody] Estudiante estudiante)
+        [HttpPut("actualizarEstudiante/{id}")]
+        public IActionResult ActualizarEstudiante(int id, [FromBody] Estudiante estudiante)
         {
             try
             {
@@ -90,8 +90,8 @@ namespace Web_APi_crud.Controllers
                 mensajeUsuario = pMensajeUsuario,
                 mensajeTecnico = pMensajeTecnico
             });
-        
-         }
+
+        }
 
         [HttpDelete("eliminarEstudiante/{id}")]
         public IActionResult EliminarEstudiante(int id)
